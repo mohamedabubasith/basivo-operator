@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://basivo-operator/settings.schema.json",
+  "title": "basivo-operator settings",
+  "description": "Per-user configuration for the basivo-operator plugin (allowlist + risk + logging).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "audit_log_path": {
+      "type": "string",
+      "description": "Absolute path for the redacted action log. Empty = default <plugin-data>/.basivo-operator/audit.log."
+    },
+    "default_publish_requires_explicit_immediate": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true, publish is never chained onto a draft on prior authorization unless the user said 'publish immediately' AND the site risk_level permits it."
+    },
+    "sites": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/site" }
+    }
+  },
+  "required": ["sites"],
+  "definitions": {
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["site", "risk_level"],
+      "properties": {
+        "site": {
+          "type": "string",
+          "description": "Registrable domain, e.g. medium.com",
+          "pattern": "^[a-z0-9.-]+\\.[a-z]{2,}$"
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "high_risk_enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Required true to operate a high-risk site; otherwise the domain hook denies navigation."
+        }
+      }
+    }
+  }
+}

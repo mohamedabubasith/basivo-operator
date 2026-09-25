@@ -1,0 +1,16 @@
+{
+  "$comment": "Copy to allowed-sites.json and edit. basivo-operator will only operate on listed domains. risk_level drives Safety Gate strictness (low|medium|high). high-risk domains are BLOCKED by the domain hook unless high_risk_enabled is true. Set enabled:false to temporarily disable a site.",
+  "audit_log_path": "",
+  "default_publish_requires_explicit_immediate": true,
+  "sites": [
+    { "site": "medium.com",    "risk_level": "medium", "enabled": true },
+    { "site": "linkedin.com",  "risk_level": "medium", "enabled": true },
+    { "site": "substack.com",  "risk_level": "medium", "enabled": true },
+    { "site": "dev.to",        "risk_level": "low",    "enabled": true },
+    { "site": "hashnode.com",  "risk_level": "low",    "enabled": true },
+    { "site": "reddit.com",    "risk_level": "medium", "enabled": true },
+
+    { "site": "chase.com",     "risk_level": "high",   "enabled": true, "high_risk_enabled": false },
+    { "site": "paypal.com",    "risk_level": "high",   "enabled": true, "high_risk_enabled": false }
+  ]
+}

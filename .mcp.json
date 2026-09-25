@@ -1,0 +1,14 @@
+{
+  "$comment": "OPTIONAL Playwright-attach fallback for Claude Code (NOT for Cowork, which uses the Claude in Chrome tools). OFF by default: this file is inert until you wire it into your Claude Code MCP config, and it only ATTACHES to a Chrome you started yourself with remote debugging on your NORMAL profile — so you stay logged in. It never launches a fresh/headless browser. Setup: start Chrome with:  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222 --user-data-dir=\"$HOME/Library/Application Support/Google/Chrome\"  then enable this server. No credentials or cookies are handled by basivo-operator.",
+  "mcpServers": {
+    "playwright-attached": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--cdp-endpoint",
+        "http://127.0.0.1:9222"
+      ]
+    }
+  }
+}

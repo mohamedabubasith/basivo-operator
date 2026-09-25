@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__claude-in-chrome__navigate|mcp__claude-in-chrome__tabs_create_mcp|browser_navigate|mcp__Control_Chrome__open_url",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/check-domain.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

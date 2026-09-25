@@ -1,0 +1,20 @@
+{
+  "name": "basivo-operator",
+  "version": "0.1.0",
+  "description": "Carry out plain-language tasks on any website inside the user's own already-logged-in browser session. No APIs, no cookies, no stored credentials. Draft-first, human-in-the-loop for anything irreversible. Ships site playbooks (Medium, LinkedIn, Substack, Dev.to, Hashnode) and a generic discovery engine for unknown sites.",
+  "author": {
+    "name": "basivo-operator contributors"
+  },
+  "homepage": "https://github.com/your-org/basivo-operator",
+  "license": "MIT",
+  "keywords": [
+    "browser-automation",
+    "basivo-operator",
+    "medium",
+    "publishing",
+    "logged-in-session",
+    "claude-in-chrome",
+    "playwright",
+    "human-in-the-loop"
+  ]
+}
