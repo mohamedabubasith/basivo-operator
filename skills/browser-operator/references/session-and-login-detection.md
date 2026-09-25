@@ -79,12 +79,15 @@ expired, step-up/re-auth):
    > You're not signed in to <site>. Please sign in yourself in the open browser
    > window — I won't type credentials. Tell me **"done"** when you're in, or
    > **"no"** to cancel.
-2. Wait for their reply, then branch:
-   - **done / yes** → re-check the signals above. Logged in now → continue the
-     task. Still logged out → say so and hand back again (offer to keep waiting).
-   - **no / cancel** → stop cleanly; take no further action.
+2. **Pause and yield — end your turn here.** Do not poll, loop, or re-check on a
+   timer, and run no further task steps until the user replies.
+3. On their reply, branch:
+   - **done / yes / logged in** → re-check the signals above. Logged in now →
+     continue the task. Still logged out → say so and hand back again (offer to
+     keep waiting).
+   - **no / cancel / stop** → stop cleanly; take no further action.
    - **ambiguous** → treat as not-ready; ask again. Do not proceed.
-3. If the user pastes a password, do NOT use it; tell them to rotate it and sign
+4. If the user pastes a password, do NOT use it; tell them to rotate it and sign
    in themselves. Never type into login / SSO / OAuth / 2FA / CAPTCHA fields, ever.
 
 ### Ambiguous (some signals both ways)

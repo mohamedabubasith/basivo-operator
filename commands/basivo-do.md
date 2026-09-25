@@ -17,8 +17,12 @@ Follow the `browser-operator` skill end to end:
    Playwright → else stop with setup steps), list tabs, check/extend the
    allowlist, load the matching playbook (`playbooks/<site>.md`) or
    `playbooks/_generic-form.md`.
-3. **Session check** — open a new tab, confirm logged in semantically; if not,
-   ask the user to sign in themselves (never type credentials).
+3. **Session check → Login handover** — open a new tab, confirm logged in
+   semantically. If not logged in (at start OR mid-task), STOP, hand it to the
+   user to sign in themselves in the open window (never type credentials), then
+   **pause and end your turn**. On their reply: "done"/"yes" → re-check and
+   continue; "no"/"cancel" → stop cleanly; ambiguous → ask again. Only resume
+   after a confirmed logged-in re-check.
 4. **Plan → Execute** — semantic targeting, verify each step, screenshot
    checkpoints, retry ladder (max 2, different strategy), human pacing.
 5. **Safety Gate** — before ANY irreversible action, show the confirmation card

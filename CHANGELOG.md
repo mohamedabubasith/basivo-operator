@@ -13,6 +13,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [S
   continue), **"no"** (cancel cleanly), or ambiguous (ask again). If the user
   pastes a password, it is not used and they're told to rotate it. Credentials /
   SSO / OAuth / 2FA / CAPTCHA fields are never touched. Mapped to NOT_LOGGED_IN.
+- **Handover now pauses and yields the turn** — on hitting a login wall the
+  engine ends its turn and waits for the user instead of polling or pushing
+  ahead, resuming only after a "done"/"yes" reply and a confirmed logged-in
+  re-check. Wired the full yes/no/done branching into the `/basivo-do` and
+  `/basivo-publish` commands so they no longer just say "ask the user to sign in".
 
 ## [0.3.0] - 2026-09-25
 

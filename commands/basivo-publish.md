@@ -8,7 +8,9 @@ publish path.
 
 Input: `$ARGUMENTS`
 
-1. Preflight + Session check.
+1. Preflight + Session check. If not logged in, run the login handover: hand it
+   to the user, **pause and end your turn**, and resume only after they say
+   "done"/"yes" and a re-check confirms they're in ("no"/"cancel" stops cleanly).
 2. Locate the draft (from the URL/description given, or the site's drafts list;
    if ambiguous, ask which one).
 3. **Verify the draft first** — open it, confirm title + body + images are what

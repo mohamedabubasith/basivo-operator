@@ -88,12 +88,17 @@ OAuth / 2FA / CAPTCHA fields. If the site requires auth:
    even if the user pastes one (if they do, tell them to rotate it).
 2. **Hand it to the user** with a clear message: which site, that they should
    sign in themselves in the open browser window, and that you'll wait.
-3. **Wait for their reply:**
-   - "**done**" / "**yes**" → re-check login signals. Still logged out → say so
-     and hand back again (offer to wait). Now logged in → continue to step 3 Plan.
-   - "**no**" / cancel → stop the task cleanly; do nothing further.
+3. **Pause and yield — end your turn here.** Do not poll, loop, re-check on a
+   timer, or run any further task steps while waiting. Control is the user's;
+   the flow only resumes when they reply.
+4. **On their reply, branch:**
+   - "**done**" / "**yes**" / "**logged in**" → re-check login signals. Still
+     logged out → say so and hand back again (offer to keep waiting). Now logged
+     in → continue to step 3 Plan.
+   - "**no**" / "**cancel**" / "**stop**" → stop the task cleanly; do nothing
+     further.
    - anything ambiguous → treat as not-ready; ask again, don't proceed.
-4. Only after a confirmed logged-in re-check do you continue the task.
+5. Only after a confirmed logged-in re-check do you continue the task.
 
 This applies to a mid-flow login wall too (session expired, step-up auth,
 re-auth prompt): pause the task, hand over, resume on "done". Map to
