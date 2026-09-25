@@ -21,13 +21,36 @@ Add `read_console_messages` / `read_network_requests` only if debugging.
 Probe: try to list tabs. Chrome: `tabs_context_mcp`. Playwright: `browser_tabs`.
 First one that returns tabs wins. If both fail → runtime #3.
 
+### Reality: a fresh browser gets walled
+A brand-new automated browser (Playwright's bundled Chromium, no history) is
+routinely blocked by bot protection — Google returns HTTP 429 (`/sorry`),
+Cloudflare-fronted sites like Medium return HTTP 403 ("Attention Required"). This
+is expected and is the whole reason we drive the user's *real, logged-in*
+browser: that session has cookies and a trust history, so it passes. If you're
+on a fresh browser and hit 429/403 at the front door, that's runtime #3 in
+disguise — stop and route the user to the extension, don't fight the wall.
+
 ### No-runtime message (copy)
-> I can't reach a logged-in browser. To let me operate your session, either:
-> 1. Install the **Claude in Chrome** extension and sign in to the site in Chrome, or
-> 2. Start Chrome with remote debugging on your normal profile:
->    `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir="$HOME/Library/Application Support/Google/Chrome"`
->    then enable the Playwright-attach config (`.mcp.json`).
-> I won't use a fresh/headless browser — it wouldn't be signed in as you.
+> I can't reach your logged-in browser (a fresh automated browser just gets
+> blocked by Google/Cloudflare, so that's not an option). To let me operate your
+> real session:
+>
+> **Recommended — Claude in Chrome extension:** install it, sign in to the site
+> in your normal Chrome, and I'll drive that window directly.
+>
+> **Power-user alternative — attach to Chrome over CDP.** Note: since Chrome 136,
+> remote debugging is IGNORED if `--user-data-dir` points at your *default*
+> profile. Use a DEDICATED profile dir and sign in there once (it persists):
+> ```
+> "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+>   --remote-debugging-port=9222 \
+>   --user-data-dir="$HOME/.chrome-basivo"
+> ```
+> First run: sign in to your sites in that window. Then enable the
+> Playwright-attach config (`.mcp.json`) and re-try.
+>
+> I won't use a fresh/headless browser — it wouldn't be signed in as you, and
+> it'd just get bot-walled.
 
 ## Login detection is SEMANTIC, never credential-based
 

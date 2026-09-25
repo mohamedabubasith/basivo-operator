@@ -3,6 +3,25 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.1.1] - 2026-09-25
+
+### Fixed
+- **Chrome 136+ remote-debugging gotcha.** Corrected the Playwright-attach setup
+  everywhere (README, `.mcp.json`, session-detection reference): since Chrome 136
+  `--remote-debugging-port` is ignored when `--user-data-dir` is the default
+  profile. Docs now use a dedicated profile dir (`$HOME/.chrome-basivo`) the user
+  signs into once — the previous default-profile command silently failed.
+
+### Changed
+- Made the **Claude in Chrome extension the clearly-recommended path**; CDP-attach
+  is now framed as the power-user alternative.
+- Documented the **bot-wall reality** (fresh automated browsers get Google HTTP
+  429 / Cloudflare HTTP 403) in the README and runtime-detection reference, so a
+  429/403 at the front door is treated as "route to the real logged-in browser,"
+  not a bug to fight — verified live during testing.
+- Added a **"Who it's for & what it actually does"** section to the README with
+  concrete customer jobs and an explicit statement of the signup/credential line.
+
 ## [0.1.0] - 2026-09-25
 
 ### Added

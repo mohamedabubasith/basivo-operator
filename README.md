@@ -12,6 +12,28 @@ irreversible, then confirms the result with evidence.
 > Hashnode, Reddit, Notion web, Google Forms, vendor dashboards, and unknown
 > sites via a generic discovery flow.
 
+## Who it's for & what it actually does
+
+You're a creator, marketer, ops person, or dev who is **already logged in** to a
+site that has no usable API — and you'd rather say "publish this" than click
+through the editor yourself. Real jobs it handles:
+
+- "Turn this markdown into a Medium draft with headings, a code block and an
+  image — let me review before it goes public." → drafts, verifies, then waits at
+  the Safety Gate.
+- "Post this update to LinkedIn." → composes, previews, posts only on your "yes".
+- "Fill this vendor portal form from my spreadsheet and submit." → maps columns
+  to fields, dry-runs, confirms, submits, captures the reference number.
+- "Update the tags on my last Medium story." → edit flow.
+- "Do X on <site I have no playbook for>." → discovers the page, then offers to
+  save a reusable playbook.
+
+Where the line is (so there are no surprises): it does the **human editing work**
+after you're logged in — type, format, upload, save, submit, publish. It does
+**not** log you in, create accounts, enter passwords/2FA/card details, or solve
+CAPTCHAs. Those stay with you, by design. It also can't operate a *fresh*
+throwaway browser (bot walls block it); it drives **your** signed-in browser.
+
 ## What makes it safe
 
 - **Your live session, never your secrets.** It reuses the browser you're already
@@ -31,21 +53,28 @@ irreversible, then confirms the result with evidence.
 
 ## Prerequisites
 
-You need a **logged-in browser** Claude can drive. One of:
+You need a **logged-in browser** Claude can drive — your real one. A fresh
+automated browser doesn't work here: with no cookies or history it gets bot-walled
+at the door (Google → HTTP 429, Cloudflare sites like Medium → HTTP 403). Using
+*your* signed-in session is what gets you through, and it's why this plugin never
+spins up a throwaway browser. Pick one:
 
-1. **Claude in Chrome extension** (recommended; this is the Cowork path) —
-   installed and signed in, with Chrome running and you signed in to the target
-   site. basivo-operator uses the `mcp__claude-in-chrome__*` tools automatically.
-2. **Attached Playwright** (Claude Code fallback, opt-in) — start Chrome with
-   remote debugging on your **normal** profile, then enable the bundled
-   `.mcp.json`:
+1. **Claude in Chrome extension** — ✅ recommended for almost everyone (and the
+   Cowork path). Install it, sign in, keep Chrome open and signed in to the target
+   site. basivo-operator uses the `mcp__claude-in-chrome__*` tools automatically
+   and drives your real window. No terminal setup.
+2. **Attached Playwright over CDP** (power-user / Claude Code, opt-in) — attach to
+   a Chrome you launch with remote debugging, then enable the bundled `.mcp.json`.
+   **Important (Chrome 136+):** remote debugging is *ignored* if `--user-data-dir`
+   points at your **default** profile, so use a **dedicated** profile dir and sign
+   in there once (it persists across launches):
    ```
    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
      --remote-debugging-port=9222 \
-     --user-data-dir="$HOME/Library/Application Support/Google/Chrome"
+     --user-data-dir="$HOME/.chrome-basivo"
    ```
-   This **attaches** to your real, logged-in Chrome. It never launches a fresh or
-   headless browser (that wouldn't be signed in as you).
+   First launch: sign in to your sites in that window. It **attaches** to that
+   real, logged-in Chrome — never a fresh or headless browser.
 
 Python 3 is used by the validator, packager, and log redactor.
 
