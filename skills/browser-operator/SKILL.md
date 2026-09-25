@@ -75,12 +75,30 @@ Runtime detection (above) → list tabs → check the site is on the allowlist
 site playbook (`playbooks/<site>.md`); if none, load `playbooks/_generic-form.md`
 and offer to author a playbook afterward (`/basivo-playbook-new`).
 
-### 2. Session check
+### 2. Session check → Login handover
 Open a new tab to the site's authenticated landing page. Detect logged-in state
 **semantically** — avatar/profile menu, "Write"/"New post" control present,
-absence of "Sign in". If not logged in: STOP, tell the user to sign in in their
-own tab, wait for their "done", re-check. Never type credentials. Never
-automate SSO/OAuth/2FA screens. Details: `references/session-and-login-detection.md`.
+absence of "Sign in".
+
+**Login handover protocol (mandatory whenever a site needs login — at start OR
+mid-task):** you never sign up, log in, or type into email / password / SSO /
+OAuth / 2FA / CAPTCHA fields. If the site requires auth:
+
+1. **STOP** immediately — do not touch any auth field, do not accept a password
+   even if the user pastes one (if they do, tell them to rotate it).
+2. **Hand it to the user** with a clear message: which site, that they should
+   sign in themselves in the open browser window, and that you'll wait.
+3. **Wait for their reply:**
+   - "**done**" / "**yes**" → re-check login signals. Still logged out → say so
+     and hand back again (offer to wait). Now logged in → continue to step 3 Plan.
+   - "**no**" / cancel → stop the task cleanly; do nothing further.
+   - anything ambiguous → treat as not-ready; ask again, don't proceed.
+4. Only after a confirmed logged-in re-check do you continue the task.
+
+This applies to a mid-flow login wall too (session expired, step-up auth,
+re-auth prompt): pause the task, hand over, resume on "done". Map to
+NOT_LOGGED_IN in `references/error-taxonomy.md`. Details:
+`references/session-and-login-detection.md`.
 
 ### 3. Plan
 Show a short numbered plan (≤ ~8 steps) with the irreversible step clearly

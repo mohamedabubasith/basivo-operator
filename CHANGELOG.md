@@ -3,6 +3,17 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.3.1] - 2026-09-25
+
+### Changed
+- **Explicit login-handover protocol** in the core skill (step 2) and the
+  session-detection reference: whenever a site needs login — at task start OR on
+  a mid-task login wall (expired session, step-up/re-auth) — the engine STOPS,
+  hands sign-in to the user, and waits for **"done"/"yes"** (re-check, then
+  continue), **"no"** (cancel cleanly), or ambiguous (ask again). If the user
+  pastes a password, it is not used and they're told to rotate it. Credentials /
+  SSO / OAuth / 2FA / CAPTCHA fields are never touched. Mapped to NOT_LOGGED_IN.
+
 ## [0.3.0] - 2026-09-25
 
 ### Added
