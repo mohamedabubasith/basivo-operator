@@ -63,18 +63,30 @@ spins up a throwaway browser. Pick one:
    Cowork path). Install it, sign in, keep Chrome open and signed in to the target
    site. basivo-operator uses the `mcp__claude-in-chrome__*` tools automatically
    and drives your real window. No terminal setup.
-2. **Attached Playwright over CDP** (power-user / Claude Code, opt-in) — attach to
-   a Chrome you launch with remote debugging, then enable the bundled `.mcp.json`.
-   **Important (Chrome 136+):** remote debugging is *ignored* if `--user-data-dir`
-   points at your **default** profile, so use a **dedicated** profile dir and sign
-   in there once (it persists across launches):
+2. **Attached Playwright over CDP** (power-user / Claude Code, opt-in) — the
+   bundled `.mcp.json` attaches to a Chrome running with remote debugging. Just
+   run the launcher (one command, idempotent, uses a dedicated profile that stays
+   logged in):
    ```
-   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-     --remote-debugging-port=9222 \
-     --user-data-dir="$HOME/.chrome-basivo"
+   bash scripts/launch-chrome.sh          # starts your real Chrome on :9222
    ```
-   First launch: sign in to your sites in that window. It **attaches** to that
-   real, logged-in Chrome — never a fresh or headless browser.
+   Sign in to your sites in that window once, then run `/basivo-doctor <site>`.
+   **Why a dedicated profile (Chrome 136+):** remote debugging is *ignored* if
+   `--user-data-dir` is your **default** profile, so the launcher uses
+   `$HOME/.chrome-basivo`. It attaches to that real, logged-in Chrome — never a
+   fresh or headless browser. (Verified live: headed Chrome loads Medium fine;
+   the throwaway browser got a Cloudflare 403.)
+
+## Where it works (by surface)
+
+| Surface | Plugin loads? | Browser it drives |
+|---------|:---:|-------------------|
+| **Claude Code CLI** | ✅ | Claude in Chrome extension, or `launch-chrome.sh` + attached Playwright |
+| **Claude Code — VS Code extension** | ✅ | same as CLI |
+| **Cowork** | ✅ | Claude in Chrome (automatic) |
+| **claude.ai browser chat** | ❌ | Claude Code plugins/marketplaces don't load on claude.ai. If a claude.ai Claude says it doesn't recognize `/basivo-*`, that's expected — install and run it in Claude Code (CLI or VS Code). |
+
+Whichever surface, the plugin still needs a **real logged-in browser** attached (extension or launcher) — that's what gets past bot walls.
 
 Python 3 is used by the validator, packager, and log redactor.
 

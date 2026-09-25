@@ -3,6 +3,25 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.2.0] - 2026-09-25
+
+### Added
+- **`scripts/launch-chrome.sh`** — one-command launcher that starts the user's
+  real Chrome with remote debugging on a dedicated profile (`$HOME/.chrome-basivo`),
+  idempotent, macOS/Linux (+ Windows instructions). Removes the manual-flag setup
+  friction for the attached-Playwright path.
+- **`.claude-plugin/marketplace.json`** so the plugin is installable via
+  `/plugin marketplace add` + `/plugin install`.
+- **"Where it works (by surface)"** table in the README: Claude Code CLI ✅,
+  VS Code extension ✅, Cowork ✅, claude.ai browser chat ❌ (Claude Code plugins
+  don't load there).
+
+### Verified live
+- End-to-end on this machine: launcher → attached-Playwright connected to real
+  Chrome → **Medium loaded with no Cloudflare 403** (a headless/throwaway browser
+  got 403) → semantic login detection correctly reported "logged out" → stopped
+  at the credential boundary without typing anything.
+
 ## [0.1.1] - 2026-09-25
 
 ### Fixed
