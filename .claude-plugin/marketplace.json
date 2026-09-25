@@ -1,0 +1,28 @@
+{
+  "name": "basivo-operator",
+  "owner": {
+    "name": "Mohamed Abu Basith"
+  },
+  "metadata": {
+    "description": "Plain-language web automation inside your own logged-in browser.",
+    "version": "0.1.1"
+  },
+  "plugins": [
+    {
+      "name": "basivo-operator",
+      "source": "./",
+      "description": "Do plain-language tasks on any website inside your own logged-in browser. No APIs, no cookies, no stored credentials. Draft-first, human-in-the-loop before anything irreversible. Ships Medium/LinkedIn/Substack/Dev.to/Hashnode playbooks + a generic discovery engine.",
+      "version": "0.1.1",
+      "category": "automation",
+      "keywords": [
+        "browser-automation",
+        "medium",
+        "publishing",
+        "logged-in-session",
+        "claude-in-chrome",
+        "playwright",
+        "human-in-the-loop"
+      ]
+    }
+  ]
+}
