@@ -147,7 +147,10 @@ def check_no_secrets_or_abspaths():
             p = os.path.join(dirpath, f)
             text = read(p)
             rel = os.path.relpath(p, ROOT)
-            if SECRET_RE.search(text):
+            # The masker + its tests legitimately contain secret-shaped patterns
+            # and fixtures; skip the secret scan for them (still check abspaths).
+            secret_exempt = rel.startswith("tests/") or rel.endswith("mask_pii.py")
+            if not secret_exempt and SECRET_RE.search(text):
                 err(f"{rel}: looks like it contains a hard-coded secret")
             if rel == "scripts/validate-plugin.py":
                 continue  # this file necessarily contains the abspath regex literal

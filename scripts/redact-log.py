@@ -14,27 +14,17 @@ Reading back is done by /basivo-audit; this script only writes.
 import argparse
 import datetime as dt
 import os
-import re
 import sys
 
-# Patterns that must never land in the log.
-SECRET_PATTERNS = [
-    re.compile(r"(?i)(password|passwd|pwd)\s*[:=]\s*\S+"),
-    re.compile(r"(?i)(authorization|bearer)\s+\S+"),
-    re.compile(r"(?i)(token|api[_-]?key|secret|session|cookie|csrf|otp|2fa)\s*[:=]\s*\S+"),
-    re.compile(r"(?i)\bcvv\b\s*[:=]?\s*\d{3,4}"),
-    re.compile(r"\b\d{13,19}\b"),                       # long digit runs (card-ish)
-    re.compile(r"[?&](access_token|token|code|session|sig|auth)=[^&\s]+"),  # URL secrets in query
-]
+# Shared masker is the single source of truth for PII/secret scrubbing.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from mask_pii import mask  # noqa: E402
 
 
 def scrub(text):
     if text is None:
         return ""
-    out = str(text)
-    for pat in SECRET_PATTERNS:
-        out = pat.sub("[REDACTED]", out)
-    return out.replace("\n", " ").strip()
+    return mask(str(text)).replace("\n", " ").strip()
 
 
 def strip_query_secrets(url):

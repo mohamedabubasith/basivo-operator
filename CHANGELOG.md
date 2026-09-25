@@ -3,6 +3,27 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.3.0] - 2026-09-25
+
+### Added
+- **Shared PII/secret masker `scripts/mask_pii.py`** — single source of truth
+  that turns credentials/PII into typed tags (`[PASSWORD]`, `[TOKEN]`, `[EMAIL]`,
+  `[CARD]`, `[SSN]`, `[AWS_KEY]`, `[JWT]`, `[GITHUB_TOKEN]`, …). Covers `key=value`
+  credential pairs, provider-shaped tokens, Bearer tokens, Luhn-checked cards,
+  SSN, email, phone, IP, URL query secrets, and generic high-entropy blobs.
+  Luhn-checks card candidates and leaves plain prose untouched. CLI + `--selftest`.
+- **`references/pii-and-secret-handling.md`** — rules for user-supplied creds/PII:
+  mask in every log/report/echo, never type credentials into a page, and never
+  mask the actual content being published.
+- **`tests/mask-pii.test.py`** — verifies masking rules and that `redact-log.py`
+  routes through the masker with no leaks.
+
+### Changed
+- `redact-log.py` now delegates to `mask_pii.mask()` (one source of truth) instead
+  of its own thinner pattern list.
+- Core skill: golden rule #1, the Report step, and the Log step now explicitly
+  require masking any user-supplied credential/PII.
+
 ## [0.2.0] - 2026-09-25
 
 ### Added

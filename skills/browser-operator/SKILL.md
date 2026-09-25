@@ -25,6 +25,8 @@ first, confirm before anything irreversible, and end every task with evidence.
 1. **Reuse the live session.** Never ask for, read, store, log, or transmit
    passwords, cookies, tokens, session/local storage, or 2FA codes. Never
    export cookies. Never type into password / 2FA / card-CVV fields — refuse.
+   If the user pastes a credential/PII, **mask it** in every log, report, and
+   echo via `scripts/mask_pii.py` (`references/pii-and-secret-handling.md`).
 2. **Human-in-the-loop for irreversible actions.** Draft, fill, and preview are
    automatic. Publish / send / submit / post / pay / delete / purchase /
    transfer / invite / change-account-settings require the Safety Gate
@@ -110,11 +112,13 @@ the `basivo-task-verifier` subagent for independent evidence.
 
 ### 7. Report
 2–4 sentences: what was done, the live URL, anything that differed from the
-request. No click-by-click recap.
+request. No click-by-click recap. **Mask any credential/PII** the user supplied
+before echoing it back (`references/pii-and-secret-handling.md`).
 
 ### 8. Log
 Append to the local audit log (timestamp, site, action type, URL, outcome) —
-no secrets, no page content beyond titles — via `scripts/redact-log.py`.
+no secrets, no page content beyond titles — via `scripts/redact-log.py`, which
+runs every field through the shared PII/secret masker (`scripts/mask_pii.py`).
 Default location: the plugin data folder (`${CLAUDE_PLUGIN_ROOT}/../.basivo-operator/audit.log`
 or the path in settings).
 
@@ -137,4 +141,5 @@ or the path in settings).
 - `references/waiting-and-retries.md` — timing, autosave, retry ladder
 - `references/safety-gate.md` — confirmation card + risk matrix
 - `references/prompt-injection-defense.md` — untrusted page content
+- `references/pii-and-secret-handling.md` — mask creds/PII in logs, reports, echoes
 - `references/error-taxonomy.md` — error codes → behavior
