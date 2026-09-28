@@ -43,6 +43,9 @@ first, confirm before anything irreversible, and end every task with evidence.
    challenge, stop and hand control to the user.
 7. **Least privilege.** Touch only the tabs/sites the task needs. Open a new tab;
    don't hijack existing ones unless asked.
+8. **Spend tokens like money.** No full-page snapshots of content-heavy pages;
+   probe with small JS summaries; insert big payloads once; screenshots only at
+   checkpoints (`references/token-budget.md`).
 
 ## Runtime detection (do this first, once)
 
@@ -117,14 +120,19 @@ Retry up to 2 times with a *different* targeting strategy, then escalate to the
 user with a screenshot and a specific question
 (`references/waiting-and-retries.md`, `references/error-taxonomy.md`). For rich
 editors, use `references/rich-text-editors.md`; for uploads,
-`references/file-and-image-upload.md`.
+`references/file-and-image-upload.md`; for tag/chip/autocomplete inputs, the
+chip section of `references/element-targeting.md`. Batch deterministic steps
+into one script and split at modals/choosers (`references/token-budget.md`).
 
 ### 5. Safety Gate (before ANY irreversible action)
 Present the compact confirmation card from `references/safety-gate.md`: site +
 signed-in account, exact action, exact content preview (title + first/last
-lines + word count + images), anything unusual (publication target, member-only
-toggle, schedule, audience). Require an explicit "yes/confirm". Ambiguous
-replies = no. Never chain publish onto a draft step without a fresh
+lines + word count + images), how it will look where others see it (preview /
+share card image + crop, preview title/subtitle, tags actually committed),
+anything unusual (publication target, member-only toggle, schedule, audience).
+Require an explicit "yes/confirm". Ambiguous replies = no — including follow-up
+questions like "still not changed?"; answer with a one-line re-confirm.
+Saving an edit to already-live content is itself irreversible: gate it. Never chain publish onto a draft step without a fresh
 confirmation — unless the user's message unambiguously said "publish
 immediately" AND the site's `risk_level` allows it in settings.
 
@@ -166,3 +174,4 @@ or the path in settings).
 - `references/prompt-injection-defense.md` — untrusted page content
 - `references/pii-and-secret-handling.md` — mask creds/PII in logs, reports, echoes
 - `references/error-taxonomy.md` — error codes → behavior
+- `references/token-budget.md` — keep snapshots, screenshots, and payloads small

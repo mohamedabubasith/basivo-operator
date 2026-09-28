@@ -44,8 +44,35 @@ backticks = code block. Image: `+` menu or paste. Verify each transform rendered
 
 - Title, subtitle, and body are usually **separate fields**. Set them
   individually; don't dump everything into the body.
+- A line typed under the title may render as a plain paragraph, not the site's
+  subtitle style. If the site has a separate preview/SEO subtitle field (often
+  in the publish dialog), set it there and check it at the Safety Gate.
 - `Enter` = new block/paragraph. `Shift+Enter` = soft line break within a block.
   Use `Shift+Enter` for line breaks inside a paragraph, `Enter` between paragraphs.
+
+## Caret & block operations (all block editors)
+
+- **Place the caret with a DOM Range, not `End`/`Home`.** `End` goes to the end
+  of the *visual line*; in a wrapped paragraph, `End` + `Enter` splits it
+  mid-sentence. Instead: `range.selectNodeContents(block); range.collapse(false)`
+  → `Enter`. Check the new block is empty before inserting into it.
+- **Insert at several spots:** first create every empty placeholder block
+  (anchor on each target paragraph's unique text), verify the count, then fill
+  them one by one. Anchors stay valid because filling doesn't shift text.
+- **Delete an embedded block (image/embed/divider):** clicking it often doesn't
+  select it. Put the caret at the *start of the next block* and press
+  `Backspace` once (selects/focuses the media — verify a focused/selected
+  class), then `Backspace` again to delete.
+- **Replace a whole body:** select a Range from the first body block to the end
+  of the last one, `Backspace`, verify only title (+ subtitle) remain, then
+  paste the new body once.
+- **A split you didn't intend:** caret is at offset 0 of the second half →
+  `Backspace` once rejoins it. Check the offset before pressing.
+- **Insert menus (`+`, `/`) toggle.** Clicking an already-open menu closes it.
+  After opening, check the target item has non-zero width; if not, click once
+  more.
+- **"Element not stable" timeouts** on editors that animate: scroll the element
+  into view via JS, then click with `force`, then verify caret/focus yourself.
 
 ## Images
 

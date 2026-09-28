@@ -22,6 +22,8 @@ navigate, read.
 │ Content:  "<title>"
 │           <first line …> … <last line>
 │           <N words · M images · tags: a, b, c>
+│ Preview:  <how others will see it: preview/share image present + crop OK,
+│            preview title/subtitle, tags/recipients actually committed>
 │ Unusual:  <publication target / member-only paywall ON / scheduled 3pm /
 │            audience: Public / canonical link / anything non-default — or "none">
 │ Undo:     <can this be undone? how? e.g. "Unpublish possible; comments notify followers">
@@ -31,6 +33,23 @@ Reply "yes" to proceed, or tell me what to change.
 
 Only proceed on an explicit affirmative ("yes", "publish", "go ahead", "confirm").
 Anything hedged, conditional, or unrelated = do NOT proceed; ask again.
+
+Not a yes: follow-up questions ("still not changed?", "is it done?"),
+compliments, or a new request. Reply with a one-line re-confirm.
+
+Before showing the card, **check the preview yourself** (element screenshot of
+the preview/share card): a blank or badly cropped preview image, an unstyled
+subtitle, or tags that were typed but never committed are the common silent
+misses.
+
+## Editing live content
+
+Saving an edit to something already public (a published post, a sent-and-
+editable message, a live listing) pushes the change to readers immediately —
+buttons are often labelled "Save and publish", "Update", or "Save". Treat it as
+irreversible: gate it with the exact change (what's removed, what's added).
+After removing media, re-check the preview/share card; it may still point at
+the deleted item.
 
 ## No implicit chaining
 

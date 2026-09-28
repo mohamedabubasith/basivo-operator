@@ -18,6 +18,33 @@
 5. **Verify** the image rendered in the right position; if the editor added a
    caption field, fill it only if the user provided a caption.
 
+## Chooser / modal handling (Playwright runtimes)
+
+- Clicking an upload control opens a **file-chooser modal**; the runtime pauses
+  there and only `browser_file_upload` can proceed. So: **one upload per
+  call** — a script clicks the control and returns; next call hands the file;
+  next call probes the result. Never loop several uploads in one script.
+- If a chooser opens that you didn't expect, **cancel it** (`browser_file_upload`
+  with no paths) and re-read state before continuing — don't feed it a file
+  blindly.
+- **Upload paths must be inside the runtime's allowed roots** (e.g. the
+  workspace or the MCP `--output-dir`). Stage generated images there; a path in
+  a temp dir outside the roots is rejected.
+
+## Picking and sizing images
+
+- **Cover / hero images:** landscape, about 2:1 (e.g. 1400×700). A tall
+  portrait photo as a cover pushes the text far below the fold — avoid it.
+- **Share/preview cards crop.** Keep the key subject centred; check the crop in
+  the site's preview before the gate.
+- **Real vs generated:** follow the user's taste. Built-in stock pickers (e.g.
+  an Unsplash button in the editor) give licensed real photos and add the
+  credit caption automatically — keep that caption.
+- **Diagrams/covers without a design tool:** write a small HTML page with
+  inline CSS, open it in a new tab of the same browser, and screenshot the
+  element at CSS scale. Plain flat styles (light background, simple cards) read
+  as "designed", heavy glows/gradients read as "AI-generated".
+
 ## Constraints & etiquette
 
 - Respect the site's file-type and size limits; don't retry-spam a rejected file.

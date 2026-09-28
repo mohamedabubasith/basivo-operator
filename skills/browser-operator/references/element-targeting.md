@@ -28,6 +28,27 @@ reads the page, not the way a bundler names classes.
 - Prefer keyboard where it's more reliable than clicking (Tab to field, Enter to
   submit a known-focused control) — but verify focus first.
 
+## Focus & keystrokes
+
+- Keystrokes go to the **focused** element of the **foreground** tab. If the
+  browser window/tab is in the background, typed text is silently dropped. Bring
+  the tab to front (`page.bringToFront()` / select the tab) before typing, then
+  confirm `document.activeElement` is the intended field, then type, then read
+  the value back.
+
+## Tag / chip / autocomplete inputs (tags, topics, recipients, labels)
+
+Two common patterns — detect which one the site uses, don't assume:
+1. **Suggestion list:** type → a listbox/options appear → click the matching
+   option.
+2. **Enter-to-commit:** no list appears → type the full value → `Enter` (some
+   use `,` or `Tab`).
+
+For every value: focus → type → (click option | Enter) → **count the chips**
+(e.g. "Remove X" buttons). If the count didn't go up, retry that one value once,
+then report it. Typed-but-uncommitted text is not a tag. Respect the max (the
+input often disappears once full).
+
 ## Playbook selectors-as-hints format
 
 Each playbook lists targets as: primary semantic target, then fallbacks.

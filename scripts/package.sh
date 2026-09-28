@@ -21,7 +21,8 @@ rm -f "$OUT"
     -x ".git/*" \
     -x "**/__pycache__/*" \
     -x "config/allowed-sites.json" \
-    -x ".basivo-operator/*" )
+    -x ".basivo-operator/*" \
+    -x ".playwright-mcp/*" )
 
 echo "==> Wrote $OUT"
 ls -lh "$OUT"

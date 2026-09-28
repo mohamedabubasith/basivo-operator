@@ -1,5 +1,5 @@
 {
-  "$comment": "OPTIONAL Playwright-attach fallback for Claude Code (NOT for Cowork, which uses the Claude in Chrome tools). OFF by default: inert until you wire it into your Claude Code MCP config. It ATTACHES to a Chrome you start yourself with remote debugging, so you stay logged in and pass bot walls (a fresh browser gets HTTP 429/403). IMPORTANT (Chrome 136+): remote debugging is IGNORED when --user-data-dir is your DEFAULT profile — use a DEDICATED profile dir and sign in there once. Setup:  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222 --user-data-dir=\"$HOME/.chrome-basivo\"  (sign in to your sites in that window on first launch), then enable this server. No credentials or cookies are handled by basivo-operator.",
+  "$comment": "OPTIONAL Playwright-attach fallback for Claude Code (NOT for Cowork, which uses the Claude in Chrome tools). OFF by default: inert until you wire it into your Claude Code MCP config. It ATTACHES to a Chrome you start yourself with remote debugging, so you stay logged in and pass bot walls (a fresh browser gets HTTP 429/403). IMPORTANT (Chrome 136+): remote debugging is IGNORED when --user-data-dir is your DEFAULT profile \u2014 use a DEDICATED profile dir and sign in there once. Setup:  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222 --user-data-dir=\"$HOME/.chrome-basivo\"  (sign in to your sites in that window on first launch), then enable this server. No credentials or cookies are handled by basivo-operator. Snapshots/screenshots go to --output-dir (outside your repo); stage upload files there too, since uploads must come from an allowed root.",
   "mcpServers": {
     "playwright-attached": {
       "command": "npx",
@@ -7,7 +7,9 @@
         "-y",
         "@playwright/mcp@latest",
         "--cdp-endpoint",
-        "http://127.0.0.1:9222"
+        "http://127.0.0.1:9222",
+        "--output-dir",
+        "${HOME}/.basivo-operator/playwright"
       ]
     }
   }

@@ -1,8 +1,8 @@
 ---
 site: medium.com
 name: Medium
-version: 1.0.0
-last_verified: 2026-09-25          # authored from Medium's documented editor; publish path NOT live-run
+version: 1.1.0
+last_verified: 2026-09-28          # draft, image insert/delete, topics, publish, and live edit run end-to-end
 risk_level: medium
 login_signals:
   logged_in:
@@ -37,19 +37,27 @@ Title field:
   - role: textbox / heading, placeholder: "Title"
   - hint: first large graf at very top of /new-story editor
 Subtitle field:
-  - hint: the second graf directly under the title (placeholder "Tell your story…"
-    becomes subtitle styling when it's the line under the title)
+  - hint: the second graf directly under the title. Typed text there usually
+    stays a plain paragraph (not subtitle style); the publish dialog's
+    "Story preview subtitle" picks it up — check it there.
 Body:
   - hint: the main contenteditable story area below title/subtitle
 Inline "+" inserter:
-  - role: button, name/aria: "Add" / plus icon that appears at line start on empty line
-    (opens menu: image, unsplash, video, embed, code block, new part)
+  - role: button, aria-label: "Add an image, video, embed, or new part" (on an
+    empty graf, class graf--empty). Menu items (aria-label): "Add an image",
+    "Add an image from Unsplash", "Add a video", "Add an embed",
+    "Add a new code block", "Add a new part". The menu toggles — if
+    "Add an image" has zero width, click the + again.
 Publish button:
   - role: button, name: "Publish"  (top-right of editor)
-Publish dialog — topics/tags input:
-  - role: textbox, placeholder: "Add a topic…"  (max 5)
-Publish dialog — "Publish now" button:
-  - role: button, name: "Publish now"
+Publish dialog (separate page: /p/<id>/submission):
+  - preview: textbox "Story preview title", textbox "Story preview subtitle",
+    buttons "Change preview image" / "Adjust image"
+  - topics: combobox "Add a topic..." → becomes "Add more topics..."; chips have
+    buttons "Remove <topic>"; input disappears at 5
+  - final button: role button, name "Publish" (plus "Schedule for later")
+Editing a published story:
+  - top-right button reads "Save and publish" (pushes changes live)
 "Saved" indicator:
   - text near top: "Saved" / "Saving…" (autosave); a draft id appears in URL
     (medium.com/p/<id>/edit)
@@ -89,11 +97,15 @@ Publish dialog — "Publish now" button:
 - **Steps:**
   1. In the editor, click **Publish** (top-right). The publish dialog opens.
   2. Read the dialog. Note/collect:
-     - **Topics/tags** — up to **5**. Type each in the "Add a topic…" box and
-       select the suggestion. (Tag input quirk: you must pick the suggested chip;
-       a raw typed word may not register — verify chips appear.)
-     - **Preview** title, subtitle, preview image (Medium auto-picks; change only
-       if the user asked).
+     - **Topics/tags** — up to **5**. Bring the tab to front, focus the
+       combobox, type the full topic, press **Enter** (no suggestion list
+       appeared in 2026-09 runs). Count "Remove <topic>" chips after each; retry
+       a topic once if the count didn't rise. Pick broad, popular topics first
+       (e.g. Technology, Artificial Intelligence) plus 2–3 specific ones.
+     - **Preview** title, subtitle, preview image. Medium auto-picks the first
+       body image; it can render blank or crop badly (portrait photos). Element-
+       screenshot the preview card and fix via "Change preview image" /
+       "Adjust image" before the gate.
      - **Add to publication** — only if the user requested a specific publication
        (this is `submit_to_publication`, also irreversible per publication rules).
      - **Story settings** — member-only / paywall toggle, distribution/"Allow
@@ -104,7 +116,7 @@ Publish dialog — "Publish now" button:
      member-only)", title + first/last lines + word count + image count + the
      tags, and anything unusual (publication target, paywall on, schedule).
      Wait for explicit "yes".
-  4. On confirm: click **Publish now** (or **Schedule** if scheduling). Do not
+  4. On confirm: click **Publish** (or **Schedule for later**). Do not
      click through any unexpected native dialog — UNEXPECTED_DIALOG → stop.
 - **Verification:** Medium redirects to the live story URL (e.g.
   `medium.com/@user/<slug>-<hash>` or a publication URL). Reload it; confirm
@@ -126,8 +138,11 @@ Prefer this over manual insertion when a canonical source URL exists.
   (or the story's "..." menu → Edit).
 - Make the change. For tags: open the Publish/story-settings dialog, adjust
   topics (max 5), verify chips.
-- Re-saving an edit to a **published** story republishes changes → treat the
-  save/update as irreversible: Safety Gate before applying.
+- Re-saving an edit to a **published** story ("Save and publish") pushes changes
+  live → treat it as irreversible: Safety Gate before applying.
+- Swapping an image: caret at start of the next graf → Backspace (figure gets
+  class is-mediaFocused) → Backspace again deletes → insert the new one on the
+  empty graf. Re-check the preview card afterwards.
 
 ### Flow: Unpublish / delete  (IRREVERSIBLE)
 - Story "..." menu → "Unpublish" or "Delete story". Both irreversible
@@ -142,8 +157,12 @@ Prefer this over manual insertion when a canonical source URL exists.
 - Title / subtitle / body are distinct grafs; set them separately.
 - `Enter` = new block, `Shift+Enter` = soft break within a block.
 - Autosave: "Saved" indicator + `/p/<id>/edit` in URL — wait for it before the gate.
-- Tag input requires selecting the suggested chip; verify chips render; max 5.
-- Preview image is auto-chosen from body images; change only on request.
+- Topics commit on Enter; typed-but-uncommitted text is not a topic; max 5.
+- Preview image is auto-chosen from body images; verify it's present and
+  well-cropped before the gate.
+- Covers: use landscape (~2:1). A tall portrait image dominates the story.
+- "Add an image from Unsplash" inserts a licensed photo with a credit caption —
+  keep the caption.
 
 ## Known challenges / rate limits / ToS notes
 - Medium's Terms restrict automation; keep volume **low and personal**. This

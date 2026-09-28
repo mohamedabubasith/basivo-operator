@@ -3,6 +3,43 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.0] - 2026-09-28
+
+Lessons from a full live run (draft, rewrite, images, topics, publish, live
+edit). Changes are site-agnostic except the Medium playbook refresh.
+
+### Added
+- **Token budget reference** (`references/token-budget.md`) and golden rule 8:
+  scoped/file snapshots or compact JS probes instead of full-page dumps, insert
+  big payloads once, screenshots only at checkpoints (element-level, CSS scale,
+  one montage for many images), batch deterministic steps and split at modals.
+- **Tag/chip input pattern** (suggestion-click vs Enter-to-commit, count chips
+  after each) and **focus rule** (bring tab to front; background tabs drop
+  keystrokes) in `element-targeting.md`.
+- **Caret & block operations** in `rich-text-editors.md`: Range-based caret
+  (not `End`), placeholder-first multi-insert, deleting embedded media, whole-
+  body replace, toggle-menu and "not stable" handling.
+- **Chooser/modal handling, allowed upload roots, image sizing, stock pickers,
+  HTML-rendered diagrams** in `file-and-image-upload.md`.
+- `/basivo-doctor` reports the running plugin version.
+
+### Changed
+- **Safety Gate** now shows how others will see the result (preview/share image
+  and crop, preview title/subtitle, committed tags), treats follow-up questions
+  as not-a-yes, and gates edits to live content.
+- `content-to-web`: media plan, broad-plus-specific tag strategy, build the
+  payload once.
+- `site-playbook-authoring`: capture silent-failure quirks; explore cheaply.
+- **Medium playbook 1.1.0**: verified end-to-end; topics commit on Enter,
+  publish dialog page/labels, "Save and publish" for live edits, image swap,
+  preview-card check, cover sizing, Unsplash credit.
+- `.mcp.json`: Playwright `--output-dir` moved out of the repo;
+  `.playwright-mcp/` git-ignored.
+
+### Fixed
+- **Masker no longer hides URLs**: long slugs/hashes in URL paths were replaced
+  with `[SECRET]` in the audit log. Query-string secrets are still masked.
+
 ## [0.3.2] - 2026-09-25
 
 ### Changed

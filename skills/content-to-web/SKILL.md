@@ -48,10 +48,19 @@ body blocks (in order):
    image the engine must upload vs. paste.
 5. **Tags/limits.** Enforce the editor's tag count/format limits from the
    playbook `capabilities` (e.g. Medium max 5 topics). Truncate with a note, not
-   silently.
+   silently. When the user asks for tags that reach more readers, mix 1–2
+   broad, heavily followed tags with 2–3 specific ones that match the content.
 6. **Structured data → form.** For form-fill tasks, map each
    spreadsheet column / JSON key to a target field by label; leave unmapped
    fields explicit so the engine can dry-run and confirm before submit.
+7. **Media plan.** For each image, record: purpose (cover / diagram / inline
+   photo), target size (covers landscape about 2:1), source (user file, stock
+   picker, or rendered from HTML), credit caption if any, and the anchor text
+   of the paragraph it goes after. Covers set the share/preview card, so plan
+   them first.
+8. **One payload, built once.** Produce the body HTML once and hand it to the
+   engine as a single insertion; don't regenerate or resend it for retries
+   (`browser-operator/references/token-budget.md`).
 
 ## Output contract
 

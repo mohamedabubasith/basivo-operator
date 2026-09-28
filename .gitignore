@@ -8,6 +8,7 @@ __pycache__/
 # User-local runtime data (never commit)
 .basivo-operator/
 config/allowed-sites.json
+.playwright-mcp/
 
 # OS
 .DS_Store

@@ -23,7 +23,10 @@ Run these checks and print a ✅/❌/⚠️ line for each:
    logged in / logged out / ambiguous. Never type credentials.
 4. **Playbook.** Does `playbooks/<site>.md` exist? Report version + last_verified,
    or note that `_generic-form.md` would be used.
-5. **Config.** Is the site on the allowlist (`config/allowed-sites*.json`)? What
+5. **Plugin version.** Print the running version (this skill's base directory /
+   `.claude-plugin/plugin.json`). If a newer checkout exists in the user's
+   workspace, ⚠️ and say to reinstall/update the plugin.
+6. **Config.** Is the site on the allowlist (`config/allowed-sites*.json`)? What
    `risk_level`? Where is the audit log configured?
 
 End with a one-line verdict: ready to operate, or the single blocking item to fix.

@@ -53,6 +53,10 @@ _RULES = [
 # note) to avoid mangling ordinary long words. ponytail: heuristic — length+mix
 # only; upgrade to real entropy scoring if false positives matter.
 _GENERIC = re.compile(r"\b(?=[A-Za-z0-9_\-]{32,}\b)(?=[^\s]*[A-Za-z])(?=[^\s]*\d)[A-Za-z0-9_\-]{32,}\b")
+# URL scheme+host+path (stops before ?/#). Slugs like "my-post-title-7d94535b69ba"
+# trip _GENERIC, so the generic rule skips this part; query secrets are still
+# caught by the typed ?token=/&code= rule above.
+_URL_PATH = re.compile(r"https?://[^\s?#]+")
 
 
 def _luhn_ok(digits):
@@ -88,7 +92,13 @@ def mask(text, aggressive=True):
         else:
             out = rx.sub(repl, out)
     if aggressive:
-        out = _GENERIC.sub("[SECRET]", out)
+        parts, last = [], 0
+        for m in _URL_PATH.finditer(out):
+            parts.append(_GENERIC.sub("[SECRET]", out[last:m.start()]))
+            parts.append(m.group(0))
+            last = m.end()
+        parts.append(_GENERIC.sub("[SECRET]", out[last:]))
+        out = "".join(parts)
     return out
 
 
@@ -110,6 +120,12 @@ def _selftest():
         assert must_not not in got, f"leaked {must_not!r} in {got!r}"
     # A card number that fails Luhn is NOT masked (avoid false positives).
     assert "[CARD]" not in mask("order 1234567890123 placed")
+    # Long URL slugs survive (audit log needs the real URL); query secrets don't.
+    slug = "https://medium.com/@u/ai-agents-went-rogue-this-month-heres-what-7d94535b69ba"
+    assert mask(slug) == slug, mask(slug)
+    assert "SEKRET" not in mask(slug + "?token=SEKRETVALUE12")
+    # A bare high-entropy blob outside a URL is still masked.
+    assert "[SECRET]" in mask("key a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7 end")
     # Plain prose is left alone.
     assert mask("Publish a post about serverless costs") == "Publish a post about serverless costs"
     print("mask_pii selftest: all cases passed")

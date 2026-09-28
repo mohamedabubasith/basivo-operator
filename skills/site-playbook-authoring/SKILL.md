@@ -32,6 +32,13 @@ click an irreversible control while exploring.
    - Note capabilities (draft, publish, tags, images, schedule) and every
      irreversible action.
    - Identify login signals (logged-in and logged-out).
+   - Record the quirks that silently fail, since these cost the most later:
+     tag/chip commit pattern (suggestion click vs Enter), where the preview /
+     share card is set and how it picks its image, the insert-menu labels for
+     media, how to select/delete an embedded block, and the button label for
+     saving an edit to live content (e.g. "Update", "Save and publish").
+   - Explore cheaply (`browser-operator/references/token-budget.md`): scoped
+     snapshots and JS probes, not full-page dumps.
    - STOP at the irreversible step — observe the confirm/publish dialog's fields
      read-only, do not click through.
 4. **Write a verification recipe.** How to confirm success after the real run
