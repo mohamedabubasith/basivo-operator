@@ -92,12 +92,13 @@ Python 3 is used by the validator, packager, and log redactor.
 
 ## Install
 
+From the Basivo marketplace (also lists [basivo-qa](https://github.com/mohamedabubasith/basivo-qa)):
 ```
-# From a marketplace/repo that lists this plugin:
-/plugin install basivo-operator
-
-# Or point Claude Code / Cowork at the folder (or the packaged zip from dist/).
+claude plugin marketplace add mohamedabubasith/basivo-plugins
+claude plugin install basivo-operator@basivo
 ```
+Or point Claude Code / Cowork at this folder (or the packaged zip from a
+[release](https://github.com/mohamedabubasith/basivo-operator/releases)).
 Then restart so the skills, commands, agent, and hook load. Copy the allowlist:
 ```
 cp config/allowed-sites.example.json config/allowed-sites.json   # then edit

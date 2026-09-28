@@ -3,6 +3,18 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.1] - 2026-09-28
+
+### Changed
+- **Naming cleanup across Basivo plugins.** Author is now "Basivo"
+  (basivo.in) with the real homepage and repository URLs (the placeholder
+  `github.com/your-org/...` is gone); LICENSE holder corrected from an old
+  project name to Basivo.
+- **Install through the shared `basivo` marketplace**
+  (`mohamedabubasith/basivo-plugins`), which lists basivo-operator and
+  basivo-qa: `claude plugin install basivo-operator@basivo`. This repo's own
+  marketplace still works for existing installs.
+
 ## [0.4.0] - 2026-09-28
 
 Lessons from a full live run (draft, rewrite, images, topics, publish, live
