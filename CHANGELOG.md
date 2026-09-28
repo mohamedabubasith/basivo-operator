@@ -3,6 +3,16 @@
 All notable changes to **basivo-operator** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.2] - 2026-09-28
+
+### Security
+- Masker recognizes GitHub fine-grained tokens (`github_pat_…`) and Anthropic
+  API keys (`sk-ant-…`).
+
+### Added
+- `mask_prose()`: masks secrets in human prose without mangling ordinary
+  words, file paths or IDs (used by basivo-journal for chat history).
+
 ## [0.4.1] - 2026-09-28
 
 ### Changed
